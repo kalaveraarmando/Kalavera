@@ -65,13 +65,77 @@
     /* ===== PASOS ===== */
     ol { padding-left: 20px; color: var(--suave); max-width: 560px; }
     ol li { margin-bottom: 10px; }
+const deco = document.getElementById("decoracion");
+const efectos = {
+  halloween:   { tipo:"volar", icono:"🦇", n:6, telaranas:true },
+  muertos:     { tipo:"caer", icono:"🌼", n:20 },
+  navidad:     { tipo:"caer", icono:"❄️", n:30, luces:true },
+  anonuevo:    { tipo:"caer", icono:"✨", n:25 },
+  sanvalentin: { tipo:"caer", icono:"♥", n:18 },
+  primavera:   { tipo:"caer", icono:"🌸", n:18 },
+  diamadres:   { tipo:"caer", icono:"🌸", n:16 },
+  patrias:     { tipo:"caer", icono:"🎊", n:14, esquina:{ icono:"🇲🇽", clase:"bandera" } },
+  verano:      { n:0, esquina:{ icono:"☀️", clase:"sol" } }
+};
 
+function decorar(t) {
+  deco.innerHTML = "";
+  const e = efectos[t];
+  if (!e) return;
+
+  for (let i = 0; i < (e.n || 0); i++) {
+    const p = document.createElement("span");
+    p.className = "particula";
+    p.textContent = e.icono;
+    const volar = e.tipo === "volar";
+    const dur = volar ? 10 + Math.random() * 10 : 8 + Math.random() * 10;
+    p.style.fontSize = (volar ? 22 + Math.random() * 16 : 12 + Math.random() * 16) + "px";
+    p.style.opacity = 0.5 + Math.random() * 0.5;
+    p.style.left = volar ? "0" : Math.random() * 100 + "vw";
+    if (volar) p.style.top = (5 + Math.random() * 40) + "vh";
+    p.style.animation = `${volar ? "volar" : "caer"} ${dur}s linear ${-Math.random() * dur}s infinite`;
+    deco.appendChild(p);
+  }
+
+  if (e.telaranas) {
+    ["izq", "der"].forEach(lado => {
+      const w = document.createElement("span");
+      w.className = "telarana " + lado;
+      w.textContent = "🕸️";
+      deco.appendChild(w);
+    });
+  }
+
+  if (e.luces) {
+    const l = document.createElement("div");
+    l.className = "luces";
+    const colores = ["#ff3b3b", "#ffd23b", "#3bd16f", "#3b9bff"];
+    for (let i = 0; i < 20; i++) {
+      const s = document.createElement("span");
+      s.className = "luz";
+      s.style.background = colores[i % 4];
+      s.style.animationDelay = (i % 4) * 0.4 + "s";
+      l.appendChild(s);
+    }
+    deco.appendChild(l);
+  }
+
+  if (e.esquina) {
+    const c = document.createElement("span");
+    c.className = "esquina " + e.esquina.clase;
+    c.textContent = e.esquina.icono;
+    deco.appendChild(c);
+  }
+}
+
+decorar(t);
     footer { padding: 32px 0; text-align: center; font-size: 0.8rem; color: var(--suave); border-top: 1px solid var(--linea); }
   </style>
 </head>
 
 <body>
-
+<div id="aviso" class="aviso"></div>
+<div id="decoracion"></div>
   <header>
     <div class="contenedor">
       <span class="logo">Kalavera</span>
@@ -168,7 +232,112 @@
 
   <!-- SOBRE MÍ -->
   <section>
-    <div class="contenedor">
+    <div class="contenedor"><script>
+  // ===== 1. ELEGIR EL TEMA SEGÚN LA FECHA =====
+  const params = new URLSearchParams(window.location.search);
+  const hoy = new Date();
+  const f = (hoy.getMonth() + 1) * 100 + hoy.getDate(); // 1031 = 31 de octubre
+  let tema = "";
+  if (f >= 1227 || f <= 102) tema = "anonuevo";
+  else if (f >= 201 && f <= 214) tema = "sanvalentin";
+  else if (f >= 301 && f <= 430) tema = "primavera";
+  else if (f >= 501 && f <= 510) tema = "diamadres";
+  else if (f >= 601 && f <= 831) tema = "verano";
+  else if (f >= 901 && f <= 916) tema = "patrias";
+  else if (f >= 1001 && f <= 1030) tema = "halloween";
+  else if (f >= 1031 && f <= 1102) tema = "muertos";
+  else if (f >= 1113 && f <= 1120) tema = "buenfin";
+  else if (f >= 1201 && f <= 1226) tema = "navidad";
+
+  // Para probar: agrega ?tema=navidad al final del link
+  const t = params.get("tema") ?? tema;
+  document.body.dataset.tema = t;
+
+  // ===== 2. AVISO DE TEMPORADA =====
+  const mensajes = {
+    anonuevo: "Feliz año nuevo ✨ Agenda tu cita por WhatsApp",
+    sanvalentin: "Feliz San Valentín ♥ Agenda tu cita por WhatsApp",
+    primavera: "Feliz primavera 🌿 Agenda tu cita por WhatsApp",
+    diamadres: "Feliz Día de las Madres 🌸",
+    verano: "Verano de tinta ☀️ Agenda tu cita por WhatsApp",
+    patrias: "¡Viva México! 🇲🇽 Feliz mes patrio",
+    halloween: "Feliz Halloween 🎃 Agenda tu cita por WhatsApp",
+    muertos: "Feliz Día de Muertos 💀",
+    buenfin: "Buen Fin · Escríbeme por WhatsApp",
+    navidad: "Feliz Navidad 🎄 Agenda tu cita por WhatsApp"
+  };
+  const aviso = document.getElementById("aviso");
+  if (mensajes[t]) {
+    aviso.textContent = mensajes[t];
+    aviso.classList.add("visible");
+  }
+
+  // ===== 3. DECORACIÓN ANIMADA =====
+  const deco = document.getElementById("decoracion");
+  const efectos = {
+    halloween:   { tipo:"volar", icono:"🦇", n:6, telaranas:true },
+    muertos:     { tipo:"caer", icono:"🌼", n:20 },
+    navidad:     { tipo:"caer", icono:"❄️", n:30, luces:true },
+    anonuevo:    { tipo:"caer", icono:"✨", n:25 },
+    sanvalentin: { tipo:"caer", icono:"♥", n:18 },
+    primavera:   { tipo:"caer", icono:"🌸", n:18 },
+    diamadres:   { tipo:"caer", icono:"🌸", n:16 },
+    patrias:     { tipo:"caer", icono:"🎊", n:14, esquina:{ icono:"🇲🇽", clase:"bandera" } },
+    verano:      { n:0, esquina:{ icono:"☀️", clase:"sol" } }
+  };
+
+  function decorar(nombre) {
+    deco.innerHTML = "";
+    const e = efectos[nombre];
+    if (!e) return;
+
+    for (let i = 0; i < (e.n || 0); i++) {
+      const p = document.createElement("span");
+      p.className = "particula";
+      p.textContent = e.icono;
+      const volar = e.tipo === "volar";
+      const dur = volar ? 10 + Math.random() * 10 : 8 + Math.random() * 10;
+      p.style.fontSize = (volar ? 22 + Math.random() * 16 : 12 + Math.random() * 16) + "px";
+      p.style.opacity = 0.5 + Math.random() * 0.5;
+      p.style.left = volar ? "0" : Math.random() * 100 + "vw";
+      if (volar) p.style.top = (5 + Math.random() * 40) + "vh";
+      p.style.animation = `${volar ? "volar" : "caer"} ${dur}s linear ${-Math.random() * dur}s infinite`;
+      deco.appendChild(p);
+    }
+
+    if (e.telaranas) {
+      ["izq", "der"].forEach(lado => {
+        const w = document.createElement("span");
+        w.className = "telarana " + lado;
+        w.textContent = "🕸️";
+        deco.appendChild(w);
+      });
+    }
+
+    if (e.luces) {
+      const l = document.createElement("div");
+      l.className = "luces";
+      const colores = ["#ff3b3b", "#ffd23b", "#3bd16f", "#3b9bff"];
+      for (let i = 0; i < 20; i++) {
+        const s = document.createElement("span");
+        s.className = "luz";
+        s.style.background = colores[i % 4];
+        s.style.animationDelay = (i % 4) * 0.4 + "s";
+        l.appendChild(s);
+      }
+      deco.appendChild(l);
+    }
+
+    if (e.esquina) {
+      const c = document.createElement("span");
+      c.className = "esquina " + e.esquina.clase;
+      c.textContent = e.esquina.icono;
+      deco.appendChild(c);
+    }
+  }
+
+  decorar(t);
+</script>
       <h2>Sobre mí</h2>
       <!-- Escribe aquí tu historia con tus palabras: desde cuándo tatúas, qué te inspira -->
       <p>Soy Kalavera, tatuador especializado en fine line. Me importa que cada pieza sea cómoda de llevar y que te sientas seguro durante todo el proceso.</p>
