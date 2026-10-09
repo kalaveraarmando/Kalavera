@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kalavera · Tatuajes Fine Line</title>
+  <meta name="description" content="Tatuajes fine line y proyectos grandes. Agenda tu cita por WhatsApp.">
+
+  <style>
+    /* ===== COLORES Y FUENTES (cambia aquí para personalizar todo) ===== */
+    :root {
+      --fondo: #fafaf8;
+      --texto: #1c1c1c;
+      --suave: #6b6b6b;
+      --linea: #e6e6e1;
+      --acento: #1c1c1c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: var(--fondo);
+      color: var(--texto);
+      line-height: 1.6;
+    }
+    .contenedor { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 64px 0; border-top: 1px solid var(--linea); }
+    h1, h2 { font-weight: 300; letter-spacing: 0.04em; }
+    h2 { font-size: 1.6rem; margin-bottom: 20px; }
+    p { color: var(--suave); max-width: 560px; }
+
+    /* ===== MENÚ ===== */
+    header { padding: 20px 0; }
+    header .contenedor { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.1rem; letter-spacing: 0.25em; text-transform: uppercase; }
+    nav a { margin-left: 20px; font-size: 0.85rem; color: var(--suave); text-decoration: none; }
+    nav a:hover { color: var(--texto); }
+
+    /* ===== PORTADA ===== */
+    .portada { padding: 96px 0 80px; border-top: none; }
+    .portada h1 { font-size: clamp(2rem, 6vw, 3.4rem); margin-bottom: 16px; }
+    .portada p { margin-bottom: 28px; font-size: 1.05rem; }
+
+    /* ===== BOTONES ===== */
+    .boton {
+      display: inline-block; padding: 13px 26px; margin: 0 8px 10px 0;
+      border: 1px solid var(--acento); color: var(--texto);
+      text-decoration: none; font-size: 0.9rem; letter-spacing: 0.05em;
+      transition: 0.2s;
+    }
+    .boton.lleno { background: var(--acento); color: var(--fondo); }
+    .boton:hover { opacity: 0.75; }
+
+    /* ===== ESTILOS ===== */
+    .columnas { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px; }
+    .columnas h3 { font-weight: 400; margin-bottom: 8px; font-size: 1.05rem; }
+
+    /* ===== GALERÍA ===== */
+    .galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .galeria img {
+      width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
+      background: var(--linea); display: block;
+    }
+
+    /* ===== PASOS ===== */
+    ol { padding-left: 20px; color: var(--suave); max-width: 560px; }
+    ol li { margin-bottom: 10px; }
+
+    footer { padding: 32px 0; text-align: center; font-size: 0.8rem; color: var(--suave); border-top: 1px solid var(--linea); }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="contenedor">
+      <span class="logo">Kalavera</span>
+      <nav>
+        <a href="#trabajos">Trabajos</a>
+        <a href="#disenos">Diseños</a>
+        <a href="#proceso">Cómo agendar</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- PORTADA -->
+  <section class="portada">
+    <div class="contenedor">
+      <h1>Tatuajes fine line<br>y proyectos grandes.</h1>
+      <p>Diseños limpios, trazos finos y atención personalizada. Cuéntame tu idea y la hacemos realidad.</p>
+      <!-- IMPORTANTE: cambia el número (52 = México) y tu usuario de Instagram -->
+      <a class="boton lleno" href="https://wa.me/52XXXXXXXXXX?text=Hola%20Kalavera%2C%20quiero%20agendar%20una%20cita" target="_blank">Agendar por WhatsApp</a>
+      <a class="boton" href="https://instagram.com/TU_USUARIO" target="_blank">Ver Instagram</a>
+    </div>
+  </section>
+
+  <!-- ESTILOS -->
+  <section>
+    <div class="contenedor">
+      <h2>Lo que hago</h2>
+      <div class="columnas">
+        <div>
+          <h3>Fine line</h3>
+          <p>Líneas delicadas y detalles pequeños, ideales para piezas discretas y elegantes.</p>
+        </div>
+        <div>
+          <h3>Proyectos grandes</h3>
+          <p>Piezas de mayor tamaño, trabajadas por sesiones y diseñadas contigo desde cero.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERÍA -->
+  <section id="trabajos">
+    <div class="contenedor">
+      <h2>Trabajos</h2>
+      <div class="galeria">
+        <!-- Sube tus fotos junto a este archivo y cambia los nombres.
+             Para agregar otra foto, copia una línea <img> -->
+        <img src="tatuaje1.jpg" alt="Tatuaje fine line">
+        <img src="tatuaje2.jpg" alt="Tatuaje fine line">
+        <img src="tatuaje3.jpg" alt="Tatuaje proyecto grande">
+        <img src="tatuaje4.jpg" alt="Tatuaje fine line">
+        <img src="tatuaje5.jpg" alt="Tatuaje fine line">
+        <img src="tatuaje6.jpg" alt="Tatuaje proyecto grande">
+      </div>
+    </div>
+  </section>
+
+  <!-- DISEÑOS DISPONIBLES: aquí subes tus dibujos e ideas -->
+  <section id="disenos">
+    <div class="contenedor">
+      <h2>Diseños disponibles</h2>
+      <p style="margin-bottom:24px;">Ideas que he dibujado y que puedes tatuarte. ¿Te gusta alguna? Escríbeme y lo agendamos.</p>
+      <div class="galeria">
+        <!-- Para agregar un dibujo, copia una línea <img> y cambia el nombre de la imagen -->
+        <img src="diseno1.jpg" alt="Diseño disponible">
+        <img src="diseno2.jpg" alt="Diseño disponible">
+        <img src="diseno3.jpg" alt="Diseño disponible">
+        <img src="diseno4.jpg" alt="Diseño disponible">
+      </div>
+      <p style="margin-top:24px;">
+        <a class="boton" href="https://wa.me/52XXXXXXXXXX?text=Hola%20Kalavera%2C%20me%20interesa%20un%20dise%C3%B1o%20de%20tu%20p%C3%A1gina" target="_blank">Preguntar por un diseño</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- PROCESO -->
+  <section id="proceso">
+    <div class="contenedor">
+      <h2>Cómo agendar</h2>
+      <ol>
+        <li>Escríbeme por WhatsApp con tu idea, el tamaño y la zona del cuerpo.</li>
+        <li>Te comparto una cotización y platicamos el diseño.</li>
+        <li>Se aparta la fecha con un anticipo.</li>
+        <li>Llegas a tu cita y listo.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section>
+    <div class="contenedor">
+      <h2>Sobre mí</h2>
+      <!-- Escribe aquí tu historia con tus palabras: desde cuándo tatúas, qué te inspira -->
+      <p>Soy Kalavera, tatuador especializado en fine line. Me importa que cada pieza sea cómoda de llevar y que te sientas seguro durante todo el proceso.</p>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="contenedor">
+      <h2>Contacto</h2>
+      <p style="margin-bottom:24px;">La forma más rápida de agendar es por WhatsApp.</p>
+      <a class="boton lleno" href="https://wa.me/52XXXXXXXXXX?text=Hola%20Kalavera%2C%20quiero%20agendar%20una%20cita" target="_blank">WhatsApp</a>
+      <a class="boton" href="https://instagram.com/TU_USUARIO" target="_blank">Instagram</a>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Kalavera · Tatuajes
+  </footer>
+
+</body>
+</html>
