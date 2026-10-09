@@ -65,70 +65,67 @@
     /* ===== PASOS ===== */
     ol { padding-left: 20px; color: var(--suave); max-width: 560px; }
     ol li { margin-bottom: 10px; }
-const deco = document.getElementById("decoracion");
-const efectos = {
-  halloween:   { tipo:"volar", icono:"🦇", n:6, telaranas:true },
-  muertos:     { tipo:"caer", icono:"🌼", n:20 },
-  navidad:     { tipo:"caer", icono:"❄️", n:30, luces:true },
-  anonuevo:    { tipo:"caer", icono:"✨", n:25 },
-  sanvalentin: { tipo:"caer", icono:"♥", n:18 },
-  primavera:   { tipo:"caer", icono:"🌸", n:18 },
-  diamadres:   { tipo:"caer", icono:"🌸", n:16 },
-  patrias:     { tipo:"caer", icono:"🎊", n:14, esquina:{ icono:"🇲🇽", clase:"bandera" } },
-  verano:      { n:0, esquina:{ icono:"☀️", clase:"sol" } }
-};
+/* ===== TEMAS DE TEMPORADA ===== */
+body[data-tema="anonuevo"]    { --fondo:#0b0b0b; --texto:#f5ecd0; --suave:#b3a67a; --linea:#2a2518; --acento:#d4af37; }
+body[data-tema="sanvalentin"] { --fondo:#fff5f6; --texto:#2b1b1f; --suave:#8a6870; --linea:#f3d9de; --acento:#c2185b; }
+body[data-tema="primavera"]   { --fondo:#f7fbf4; --texto:#1f2d1f; --suave:#667a66; --linea:#dfead9; --acento:#4f9d5d; }
+body[data-tema="diamadres"]   { --fondo:#fff7f5; --texto:#2d1d20; --suave:#8f6f74; --linea:#f4dcdc; --acento:#d96a8a; }
+body[data-tema="verano"]      { --fondo:#fffaf0; --texto:#1c2a33; --suave:#5d7280; --linea:#f0e4cc; --acento:#ff8a3d; }
+body[data-tema="patrias"]     { --fondo:#fbfaf6; --texto:#1b2a22; --suave:#5f6f66; --linea:#e3e6dc; --acento:#006847; }
+body[data-tema="halloween"]   { --fondo:#120b0b; --texto:#f2e9dc; --suave:#b8a99a; --linea:#2a1d1d; --acento:#ff7a1a; }
+body[data-tema="muertos"]     { --fondo:#1a1020; --texto:#fdf0d5; --suave:#c9b6d6; --linea:#33223f; --acento:#ff9f1c; }
+body[data-tema="buenfin"]     { --fondo:#0b0b0b; --texto:#ffffff; --suave:#a8a8a8; --linea:#262626; --acento:#ffd400; }
+body[data-tema="navidad"]     { --fondo:#0f1a14; --texto:#f5f1e8; --suave:#b9c4b8; --linea:#1f3328; --acento:#c8102e; }
 
-function decorar(t) {
-  deco.innerHTML = "";
-  const e = efectos[t];
-  if (!e) return;
+/* ===== AVISO ===== */
+.aviso { display:none; text-align:center; padding:10px 16px; font-size:0.85rem; letter-spacing:0.08em; background:var(--acento); color:var(--fondo); }
+.aviso.visible { display:block; }
 
-  for (let i = 0; i < (e.n || 0); i++) {
-    const p = document.createElement("span");
-    p.className = "particula";
-    p.textContent = e.icono;
-    const volar = e.tipo === "volar";
-    const dur = volar ? 10 + Math.random() * 10 : 8 + Math.random() * 10;
-    p.style.fontSize = (volar ? 22 + Math.random() * 16 : 12 + Math.random() * 16) + "px";
-    p.style.opacity = 0.5 + Math.random() * 0.5;
-    p.style.left = volar ? "0" : Math.random() * 100 + "vw";
-    if (volar) p.style.top = (5 + Math.random() * 40) + "vh";
-    p.style.animation = `${volar ? "volar" : "caer"} ${dur}s linear ${-Math.random() * dur}s infinite`;
-    deco.appendChild(p);
-  }
+/* ===== DECORACIÓN ===== */
+#decoracion { position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:50; }
+.particula { position:absolute; top:-10%; user-select:none; will-change:transform; }
+@keyframes caer { to { transform: translateY(115vh) rotate(360deg); } }
+@keyframes volar { 0% { transform: translate(-10vw,0); } 50% { transform: translate(55vw,-6vh); } 100% { transform: translate(110vw,4vh); } }
+@keyframes ondear { 0%,100% { transform: rotate(-6deg) skewY(-4deg); } 50% { transform: rotate(6deg) skewY(4deg); } }
+@keyframes parpadeo { 0%,100% { opacity:1; } 50% { opacity:.2; } }
+@keyframes girar { to { transform: rotate(360deg); } }
+.telarana { position:absolute; top:0; font-size:96px; opacity:.45; }
+.telarana.izq { left:0; }
+.telarana.der { right:0; transform:scaleX(-1); }
+.esquina { position:absolute; top:70px; right:16px; font-size:56px; }
+.esquina.bandera { transform-origin:left center; animation: ondear 2s ease-in-out infinite; }
+.esquina.sol { animation: girar 30s linear infinite; }
+.luces { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-around; }
+.luz { width:10px; height:14px; border-radius:50%; margin-top:4px; animation: parpadeo 1.6s infinite; }
 
-  if (e.telaranas) {
-    ["izq", "der"].forEach(lado => {
-      const w = document.createElement("span");
-      w.className = "telarana " + lado;
-      w.textContent = "🕸️";
-      deco.appendChild(w);
-    });
-  }
-
-  if (e.luces) {
-    const l = document.createElement("div");
-    l.className = "luces";
-    const colores = ["#ff3b3b", "#ffd23b", "#3bd16f", "#3b9bff"];
-    for (let i = 0; i < 20; i++) {
-      const s = document.createElement("span");
-      s.className = "luz";
-      s.style.background = colores[i % 4];
-      s.style.animationDelay = (i % 4) * 0.4 + "s";
-      l.appendChild(s);
-    }
-    deco.appendChild(l);
-  }
-
-  if (e.esquina) {
-    const c = document.createElement("span");
-    c.className = "esquina " + e.esquina.clase;
-    c.textContent = e.esquina.icono;
-    deco.appendChild(c);
-  }
+/* ===== ANIMACIONES PRO ===== */
+.murci { position:absolute; left:0; fill:var(--suave); will-change:transform; }
+.murci .ala { transform-origin:32px 18px; animation: aletear .3s ease-in-out infinite alternate; }
+@keyframes aletear { from { transform: scaleY(1); } to { transform: scaleY(.2); } }
+@keyframes cruzar {
+  0% { transform: translate(-15vw,0); }
+  25% { transform: translate(20vw,-8vh); }
+  50% { transform: translate(50vw,4vh); }
+  75% { transform: translate(80vw,-6vh); }
+  100% { transform: translate(115vw,2vh); }
+}
+.arana { position:absolute; top:0; display:flex; flex-direction:column; align-items:center; color:var(--suave); }
+.arana .hilo { width:1px; background:currentColor; height:30px; animation: hilo 7s ease-in-out infinite; }
+@keyframes hilo { 0%,100% { height:20px; } 50% { height:120px; } }
+.fantasma { position:absolute; bottom:12%; left:0; animation: pasear 24s linear infinite; }
+.fantasma svg { animation: flotar 3s ease-in-out infinite; opacity:.85; }
+@keyframes pasear { from { transform: translateX(-12vw); } to { transform: translateX(112vw); } }
+@keyframes flotar { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-22px) rotate(3deg); } }
+.copo { position:absolute; top:0; background:#fff; border-radius:50%; will-change:transform; }
+@keyframes nevar {
+  0% { transform: translate(0,-5vh); }
+  25% { transform: translate(22px,25vh); }
+  50% { transform: translate(-16px,55vh); }
+  75% { transform: translate(22px,85vh); }
+  100% { transform: translate(0,112vh); }
 }
 
-decorar(t);
+@media (prefers-reduced-motion: reduce) { #decoracion * { animation:none !important; } }
     footer { padding: 32px 0; text-align: center; font-size: 0.8rem; color: var(--suave); border-top: 1px solid var(--linea); }
   </style>
 </head>
@@ -338,6 +335,8 @@ decorar(t);
 
   decorar(t);
 </script>
+      <section>
+  <div class="contenedor">
       <h2>Sobre mí</h2>
       <!-- Escribe aquí tu historia con tus palabras: desde cuándo tatúas, qué te inspira -->
       <p>Soy Kalavera, tatuador especializado en fine line. Me importa que cada pieza sea cómoda de llevar y que te sientas seguro durante todo el proceso.</p>
